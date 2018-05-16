@@ -5,8 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToDoList.ClientWPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="700">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="3" Content="Add Task"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Height="50" Width="370" Command="{Binding AddTaskCommand}"/>
+        <RadioButton Content="All" HorizontalAlignment="Left" Margin="26,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" />
+        <RadioButton Content="Overdue" HorizontalAlignment="Left" Margin="34,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="1"/>
+        <RadioButton Content="Today" HorizontalAlignment="Left" Margin="36,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="2"/>
+        <RadioButton Content="This Week" HorizontalAlignment="Left" Margin="38,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" Grid.Column="3"/>
+        <CheckBox Content="Finished" Grid.Column="4" HorizontalAlignment="Left" Margin="45,40.6,0,0" Grid.Row="1" VerticalAlignment="Top"/>
     </Grid>
 </UserControl>

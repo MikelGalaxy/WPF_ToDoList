@@ -1,28 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using MahApps.Metro.Controls;
+using Microsoft.Practices.Unity;
+using Prism.Regions;
+using System;
+
+using ToDoList.ClientWPF.View;
+using ToDoList.ClientWPF.ViewModel;
 
 namespace ToDoList.ClientWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
-        public MainWindow()
+
+        private IMainWindowViewModel _viewModel;
+        private IRegionManager _regionManager;
+        //public MainWindow()
+        //{
+        //    InitializeComponent();
+        //}
+
+        public MainWindow(IUnityContainer container, IRegionManager regionManager)
         {
             InitializeComponent();
+            _viewModel = container.Resolve<IMainWindowViewModel>();
+
+            RegionManager.SetRegionManager(this, regionManager);
+            regionManager.Regions["ContentRegion"].Add(container.Resolve<AddTask>());
+            regionManager.Regions["ContentRegion"].Add(container.Resolve<TaskList>());
+
+            regionManager.Regions["ContentRegion"].Activate(container.Resolve<TaskList>());
+            DataContext = _viewModel;
+            _regionManager = regionManager;
         }
     }
 }

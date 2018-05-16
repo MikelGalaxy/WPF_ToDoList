@@ -5,8 +5,37 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToDoList.ClientWPF.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="700">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button Grid.Row="5" Grid.Column="0" Content="Save" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"  Height="46"/>
+        <Button Grid.Row="5" Grid.Column="2" Content="Cancel" HorizontalAlignment="Center" VerticalAlignment="Center" Width="130"  Height="46" />
+        <Slider Grid.Column="1" HorizontalAlignment="Left" Margin="13.4,36.6,0,0" Grid.Row="2" VerticalAlignment="Top" Width="210"/>
+        <DatePicker Grid.Column="1" HorizontalAlignment="Left" Margin="39.4,31.8,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="39.4,31,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="160"/>
+        <TextBox Grid.Column="1" HorizontalAlignment="Left" Height="129" Margin="13.4,10.4,0,0" Grid.Row="3" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="419" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+        <Label Content="Due date:" HorizontalAlignment="Left" Margin="120,30.8,0,0" VerticalAlignment="Top" Width="114" Grid.Row="1" Grid.ColumnSpan="2"/>
+        <Label Content="Title:" HorizontalAlignment="Left" Margin="128,27,0,0" VerticalAlignment="Top" Width="106" Grid.ColumnSpan="2"/>
+        <Label Content="Completion" HorizontalAlignment="Left" Margin="120,28.6,0,0" VerticalAlignment="Top" Width="114" Grid.Row="2" Grid.ColumnSpan="2"/>
+        <Label Content="Description:" HorizontalAlignment="Left" Margin="120,23.4,0,0" VerticalAlignment="Top" Width="114" Grid.Row="3" Grid.ColumnSpan="2"/>
+
+
+
+
+
+
     </Grid>
 </UserControl>

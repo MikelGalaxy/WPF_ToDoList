@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ToDoList.ClientWPF.ViewModel;
 
 namespace ToDoList.ClientWPF.View
 {
@@ -20,9 +21,11 @@ namespace ToDoList.ClientWPF.View
     /// </summary>
     public partial class AddTask : UserControl
     {
-        public AddTask()
+        public AddTask(IAddTaskViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
+
     }
 }

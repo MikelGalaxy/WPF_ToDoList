@@ -1,12 +1,18 @@
-﻿<Window x:Class="ToDoList.ClientWPF.MainWindow"
+﻿<controls:MetroWindow
+        x:Class="ToDoList.ClientWPF.MainWindow"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList.ClientWPF"
+        xmlns:viewModels ="clr-namespace:ToDoList.ClientWPF.ViewModel"
+        xmlns:views ="clr-namespace:ToDoList.ClientWPF.View"
+        xmlns:prism="http://prismlibrary.com/"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="To Do List" Height="450" Width="800">
     <Grid>
-        
+        <ContentControl prism:RegionManager.RegionName="ContentRegion"/>
     </Grid>
-</Window>
+</controls:MetroWindow>

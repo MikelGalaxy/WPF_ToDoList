@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ToDoList.ClientWPF.ViewModel
 {
-    public class AddTaskViewModel: BaseViewModel, IAddTaskViewModel
+    public interface IAddTaskViewModel
     {
     }
 }
