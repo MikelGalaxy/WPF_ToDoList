@@ -8,5 +8,21 @@ namespace ToDoList.IOService
 {
     public class IOManager
     {
+
+        public void LoadFile()
+        {
+
+
+        }
+
+        public void SaveFile()
+        {
+
+
+        }
+
+
+
+
     }
 }

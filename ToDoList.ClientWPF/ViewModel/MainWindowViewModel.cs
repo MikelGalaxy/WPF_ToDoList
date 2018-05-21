@@ -22,10 +22,16 @@ namespace ToDoList.ClientWPF.ViewModel
             _eventAggregator = eventAggregator;
             //Menu = new RelayCommand(x => OnMenuCommand());
             eventAggregator.GetEvent<CreateEditTaskEvent>().Subscribe(switchWindow);
+            eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(backToList);
             _regionManager = regionManager;
             _unityContainer = unityContainer;
 
            
+        }
+
+        private void backToList(Task obj)
+        {
+            _regionManager.Regions["ContentRegion"].Activate(_unityContainer.Resolve<TaskList>());
         }
 
         private void switchWindow(Task obj)

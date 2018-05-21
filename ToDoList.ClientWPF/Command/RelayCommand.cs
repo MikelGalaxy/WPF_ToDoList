@@ -12,6 +12,7 @@ namespace ToDoList.ClientWPF.Command
     {
         readonly Action<object> execute;
         readonly Predicate<object> canExecute;
+        private object v;
 
         public RelayCommand(Action<object> execute)
             : this(execute, null)
@@ -26,6 +27,11 @@ namespace ToDoList.ClientWPF.Command
 
             this.execute = execute;
             this.canExecute = canExecute;
+        }
+
+        public RelayCommand(object v)
+        {
+            this.v = v;
         }
 
         [DebuggerStepThrough]
