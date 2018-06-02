@@ -43,11 +43,11 @@
         <RadioButton GroupName="Filtering"  Content="All" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
                      Margin="26,37,0,0"  IsChecked="{Binding AllFilter}"/>
         <RadioButton GroupName="Filtering" Content="Overdue" Grid.Row="1" HorizontalAlignment="Left" Margin="34,37.6,0,0" 
-                      VerticalAlignment="Top" Grid.Column="1" Command="{Binding FilterOverdue}"/>
+                      VerticalAlignment="Top" Grid.Column="1" IsChecked="{Binding OverdueFilter}"/>
         <RadioButton GroupName="Filtering" Content="Today" Grid.Column="2" HorizontalAlignment="Left" 
                      Margin="36,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding TodayFilter}"/>
         <RadioButton GroupName="Filtering" Content="This Week" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" 
-                     Margin="38,37.6,0,0"  VerticalAlignment="Top" Command="{Binding FilterThisWeek}"/>
+                     Margin="38,37.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding ThisWeekFilter}"/>
         <CheckBox Content="Finished" Grid.Column="4" Grid.Row="1"   HorizontalAlignment="Left" 
                   Margin="45,40.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding Finished}"/>
         <!---->

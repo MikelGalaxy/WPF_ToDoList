@@ -43,6 +43,16 @@ namespace ToDoList.ClientWPF.ViewModel
             }
         }
 
+        private bool _overdueFilter;
+
+        public bool OverdueFilter
+        {
+            get { return _overdueFilter; }
+            set { _overdueFilter = value;
+                OnPropertyChanged();
+                view.Refresh();
+            }
+        }
 
 
         private bool _todayFilter;
@@ -54,6 +64,18 @@ namespace ToDoList.ClientWPF.ViewModel
                 view.Refresh();
             }
         }
+
+        private bool _thisWeekFilter;
+
+        public bool ThisWeekFilter
+        {
+            get { return _thisWeekFilter; }
+            set { _thisWeekFilter = value;
+                OnPropertyChanged();
+                view.Refresh();
+            }
+        }
+
 
 
 
@@ -79,9 +101,9 @@ namespace ToDoList.ClientWPF.ViewModel
             AddTaskCommand = new RelayCommand(OnAddTaskClick,CanAddTaskClick);
             Exit = new RelayCommand(OnExitClick, CanExitClick);
             //FilterAll = new RelayCommand(x => ClickFilterAll());
-            FilterOverdue = new RelayCommand(x => ClickFilterOverdue());
+            //FilterOverdue = new RelayCommand(x => ClickFilterOverdue());
             //FilterToday = new RelayCommand(x => ClickFilterToday());
-            FilterThisWeek = new RelayCommand(x => ClickFilterThisWeek());
+            //FilterThisWeek = new RelayCommand(x => ClickFilterThisWeek());
             //IsFinished = new RelayCommand(x => ClickIsFinished());
             testSeed();
             view = (CollectionView)CollectionViewSource.GetDefaultView(TaskList);
@@ -116,7 +138,16 @@ namespace ToDoList.ClientWPF.ViewModel
             DateTime date = DateTime.ParseExact(taskToDo.DueDate, "yyyy-MM-dd", new DateTimeFormatInfo());
             if (Finished == false)
             {
-                if(TodayFilter)
+                if (OverdueFilter)
+                {
+                    if (date.Date < DateTime.Now.Date)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                if (TodayFilter)
                 {
                     if (date.Date == DateTime.Now.Date)
                     {
@@ -125,12 +156,35 @@ namespace ToDoList.ClientWPF.ViewModel
                     else
                         return false;
                 }
+                if(ThisWeekFilter)
+                {
+                    CultureInfo cul = CultureInfo.CurrentCulture;
+                    int itemWeek = cul.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                    int currentWeek = cul.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                    if (itemWeek == currentWeek)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+
+
 
 
                 return true;
             }
             else
             {
+                if (OverdueFilter)
+                {
+                    if (date.Date < DateTime.Now.Date && taskToDo.Completion == 100)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
                 if (TodayFilter)
                 {
                     if (date.Date == DateTime.Now.Date && taskToDo.Completion == 100)
@@ -140,6 +194,22 @@ namespace ToDoList.ClientWPF.ViewModel
                     else
                         return false;
                 }
+                if (ThisWeekFilter)
+                {
+                    CultureInfo cul = CultureInfo.CurrentCulture;
+                    int itemWeek = cul.Calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                    int currentWeek = cul.Calendar.GetWeekOfYear(DateTime.Now, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+                    if (itemWeek == currentWeek && taskToDo.Completion == 100)
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+
+
+
+
 
 
                 if (taskToDo.Completion == 100)
@@ -153,28 +223,16 @@ namespace ToDoList.ClientWPF.ViewModel
 
 
 
-        private void ClickFilterThisWeek()
-        {
-            MessageBox.Show("xD This week");
-        }
-
-
-        private void ClickFilterOverdue()
-        {
-            MessageBox.Show("xD Overdue");
-        }
-
-
-
-
-
 
         private void testSeed()
         {
+            TaskList.Add(new ToDoTask(false, "2018-04-06", "OVerdue fi", 100, "finished"));
             TaskList.Add(new ToDoTask(false, "2018-04-06", "Some title", 30, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-05-06", "Some title2", 40, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-06-06", "Some title3", 100, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-06-02", "555", 100, "XD"));
+            TaskList.Add(new ToDoTask(false, "2018-06-03", "555", 100, "XD"));
+            TaskList.Add(new ToDoTask(false, "2018-05-29", "1111111", 25, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-06-02", "12345", 25, "XD"));
         }
 
