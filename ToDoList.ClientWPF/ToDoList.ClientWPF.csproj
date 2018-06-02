@@ -149,6 +149,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.IOService\ToDoList.IOService.csproj">
+      <Project>{2b20ada4-7d3a-48b8-81d3-26bb159731ba}</Project>
+      <Name>ToDoList.IOService</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ToDoList.Model\ToDoList.Model.csproj">
+      <Project>{7a4c8768-6b7f-4d00-a465-2cdcd9865322}</Project>
+      <Name>ToDoList.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

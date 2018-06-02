@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ToDoList.ClientWPF.Event;
 using ToDoList.ClientWPF.View;
+using ToDoList.Model;
 
 namespace ToDoList.ClientWPF.ViewModel
 {
@@ -29,12 +30,12 @@ namespace ToDoList.ClientWPF.ViewModel
            
         }
 
-        private void backToList(Task obj)
+        private void backToList(ToDoTask obj)
         {
             _regionManager.Regions["ContentRegion"].Activate(_unityContainer.Resolve<TaskList>());
         }
 
-        private void switchWindow(Task obj)
+        private void switchWindow(ToDoTask obj)
         {
             _regionManager.Regions["ContentRegion"].Activate(_unityContainer.Resolve<AddTask>());
         }

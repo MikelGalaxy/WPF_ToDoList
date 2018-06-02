@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using ToDoList.ClientWPF.Command;
 using ToDoList.ClientWPF.Event;
+using ToDoList.Model;
 
 namespace ToDoList.ClientWPF.ViewModel
 {
@@ -24,15 +25,19 @@ namespace ToDoList.ClientWPF.ViewModel
         public string Title
         {
             get { return _title; }
-            set { _title = value; }
+            set { _title = value;
+                OnPropertyChanged();
+            }
         }
 
-        private DateTime _dueDate;
+        private string _dueDate;
 
-        public DateTime DueDate
+        public string DueDate
         {
             get { return _dueDate; }
-            set { _dueDate = value; }
+            set { _dueDate = value;
+                OnPropertyChanged();
+            }
         }
 
 
@@ -51,7 +56,9 @@ namespace ToDoList.ClientWPF.ViewModel
         public string Description
         {
             get { return _description; }
-            set { _description = value; }
+            set { _description = value;
+                OnPropertyChanged();
+            }
         }
         #endregion
 
@@ -61,7 +68,7 @@ namespace ToDoList.ClientWPF.ViewModel
             _eventAggregator = eventAggregator;
             AddSaveTask = new RelayCommand(OnAddSaveTaskClick, CanAddSaveClick);
             Cancel = new RelayCommand(OnCancelClick, CanCancelClick);
-            
+            eventAggregator.GetEvent<CreateEditTaskEvent>().Subscribe(LoadTask);
         }
 
        
@@ -94,10 +101,14 @@ namespace ToDoList.ClientWPF.ViewModel
 
         #endregion
 
-        public void LoadTask(Task task)
+        public void LoadTask(ToDoTask task)
         {
             if(task!=null)
             {
+                DueDate = task.DueDate;
+                Title = task.Title;
+                Completion = task.Completion;
+                Description = task.Description;
 
             }
 

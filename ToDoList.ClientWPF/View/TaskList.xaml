@@ -4,10 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ToDoList.ClientWPF.View"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
 
-    
+   
+
+
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -38,20 +41,39 @@
         </DockPanel>
 
         <RadioButton GroupName="Filtering"  Content="All" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" 
-                     Margin="26,37,0,0"  Command="{Binding FilterAll}" IsChecked="True"/>
+                     Margin="26,37,0,0"  IsChecked="{Binding AllFilter}"/>
         <RadioButton GroupName="Filtering" Content="Overdue" Grid.Row="1" HorizontalAlignment="Left" Margin="34,37.6,0,0" 
                       VerticalAlignment="Top" Grid.Column="1" Command="{Binding FilterOverdue}"/>
         <RadioButton GroupName="Filtering" Content="Today" Grid.Column="2" HorizontalAlignment="Left" 
-                     Margin="36,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" Command="{Binding FilterToday}"/>
+                     Margin="36,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding TodayFilter}"/>
         <RadioButton GroupName="Filtering" Content="This Week" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" 
                      Margin="38,37.6,0,0"  VerticalAlignment="Top" Command="{Binding FilterThisWeek}"/>
         <CheckBox Content="Finished" Grid.Column="4" Grid.Row="1"   HorizontalAlignment="Left" 
-                  Margin="45,40.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding Finished}" Command="{Binding IsFinished}"/>
-
+                  Margin="45,40.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding Finished}"/>
+        <!---->
         <Button Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="3" Content="Add Task"  HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Height="50" Width="370" Command="{Binding AddTaskCommand}"/>
+        <ListView x:Name="taskList" Grid.Row="2" HorizontalAlignment="Center" Height="200"   VerticalAlignment="Center" Width="640" Grid.ColumnSpan="5" Grid.RowSpan="1"
+                  ItemsSource="{Binding TaskList}">          
+            <ListView.View>
+                <GridView AllowsColumnReorder="False" >
+                    <GridViewColumn Header="Due date" DisplayMemberBinding="{Binding DueDate}"/>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Header="% Complete" DisplayMemberBinding="{Binding Completion}"/>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                  <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+            </Style>
+            </ListView.ItemContainerStyle>
+            
+        </ListView>
+
         
-        
+
+
 
     </Grid>
 </UserControl>

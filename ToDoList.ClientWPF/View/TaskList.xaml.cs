@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ToDoList.ClientWPF.ViewModel;
+using ToDoList.Model;
 
 namespace ToDoList.ClientWPF.View
 {
@@ -21,12 +22,21 @@ namespace ToDoList.ClientWPF.View
     /// </summary>
     public partial class TaskList : UserControl
     {
+        public ITaskListViewModel List { get; set; }
         public TaskList(ITaskListViewModel viewModel)
         {
             InitializeComponent();
             DataContext = viewModel;
+            List = viewModel;
         }
 
+        protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ToDoTask x = ((ListViewItem)sender).Content as ToDoTask;
+            MessageBox.Show(x.Completion.ToString());
+            List.SelectedTask(x);
 
+            //var track = ((ListViewItem)sender).Content as Track; //Casting back to the binded Track
+        }
     }
 }
