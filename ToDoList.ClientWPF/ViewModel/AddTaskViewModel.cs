@@ -1,6 +1,7 @@
 ﻿using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,6 +20,7 @@ namespace ToDoList.ClientWPF.ViewModel
         public RelayCommand Cancel { get; set; }
 
 
+
         #region Properties
         private string _title;
 
@@ -30,9 +32,9 @@ namespace ToDoList.ClientWPF.ViewModel
             }
         }
 
-        private string _dueDate;
+        private DateTime _dueDate;
 
-        public string DueDate
+        public DateTime DueDate
         {
             get { return _dueDate; }
             set { _dueDate = value;
@@ -62,6 +64,18 @@ namespace ToDoList.ClientWPF.ViewModel
         }
         #endregion
 
+        private string _buttonText="Save";
+
+        public string ButtonText
+        {
+            get { return _buttonText; }
+            set { _buttonText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool edited = false;
+        private ToDoTask receivedTask;
 
         public AddTaskViewModel(IEventAggregator eventAggregator)
         {
@@ -69,6 +83,7 @@ namespace ToDoList.ClientWPF.ViewModel
             AddSaveTask = new RelayCommand(OnAddSaveTaskClick, CanAddSaveClick);
             Cancel = new RelayCommand(OnCancelClick, CanCancelClick);
             eventAggregator.GetEvent<CreateEditTaskEvent>().Subscribe(LoadTask);
+            clearFields();
         }
 
        
@@ -81,12 +96,36 @@ namespace ToDoList.ClientWPF.ViewModel
         private void OnAddSaveTaskClick(object obj)
         {
             //to change
-            _eventAggregator.GetEvent<SendTaskToListEvent>().Publish(null);
+            ToDoTask toDoTask = new ToDoTask(false,DueDate.ToString("yyyy-MM-dd"), Title,Completion,Description);
+            if (Completion == 100)
+                toDoTask.Checked = true;
+            if(edited)
+            {
+                _eventAggregator.GetEvent<SendEditedTaskToListEvent>().Publish(toDoTask);
+                clearFields();
+            }
+            else
+            {
+                _eventAggregator.GetEvent<SendTaskToListEvent>().Publish(toDoTask);
+                clearFields();
+            }           
         }
 
         private bool CanAddSaveClick(object obj)
         {
-            return true;
+            if(edited)
+            {
+                if (receivedTask.Title != Title || receivedTask.DueDate != DueDate.ToString("yyyy-MM-dd")
+                    || receivedTask.Completion != Completion || receivedTask.Description != Description)
+                    return true;
+
+            }else
+            {
+                //adding task
+                if (Title.Length > 0 && Description.Length > 0)
+                    return true;
+            }
+            return false;
         }
 
         private bool CanCancelClick(object obj)
@@ -97,6 +136,7 @@ namespace ToDoList.ClientWPF.ViewModel
         private void OnCancelClick(object obj)
         {
             _eventAggregator.GetEvent<SendTaskToListEvent>().Publish(null);
+            clearFields();
         }
 
         #endregion
@@ -105,13 +145,28 @@ namespace ToDoList.ClientWPF.ViewModel
         {
             if(task!=null)
             {
-                DueDate = task.DueDate;
+                DueDate = DateTime.ParseExact(task.DueDate,"yyyy-MM-dd", new DateTimeFormatInfo());
                 Title = task.Title;
                 Completion = task.Completion;
                 Description = task.Description;
-
+                ButtonText = "Save";
+                edited = true;
+                receivedTask = task;
             }
+            else
+            {
+                ButtonText = "Add";
+                edited = false;
+            }
+           
+        }
 
+        private void clearFields()
+        {
+            DueDate = DateTime.Now.Date;
+            Title = "";
+            Completion = 0;
+            Description = "";
         }
 
     }

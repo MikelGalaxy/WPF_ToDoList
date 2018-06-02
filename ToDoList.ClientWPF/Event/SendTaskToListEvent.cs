@@ -8,7 +8,7 @@ using ToDoList.Model;
 
 namespace ToDoList.ClientWPF.Event
 {
-    class SendTaskToListEvent:PubSubEvent<ToDoTask>
+    public class SendTaskToListEvent:PubSubEvent<ToDoTask>
     {
     }
 }

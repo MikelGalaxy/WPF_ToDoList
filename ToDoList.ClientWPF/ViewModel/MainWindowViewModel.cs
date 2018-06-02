@@ -24,6 +24,7 @@ namespace ToDoList.ClientWPF.ViewModel
             //Menu = new RelayCommand(x => OnMenuCommand());
             eventAggregator.GetEvent<CreateEditTaskEvent>().Subscribe(switchWindow);
             eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(backToList);
+            eventAggregator.GetEvent<SendEditedTaskToListEvent>().Subscribe(backToList);
             _regionManager = regionManager;
             _unityContainer = unityContainer;
 

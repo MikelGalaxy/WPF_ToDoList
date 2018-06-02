@@ -87,6 +87,7 @@
     <Compile Include="Bootstrapper\Bootstrapper.cs" />
     <Compile Include="Command\RelayCommand.cs" />
     <Compile Include="Event\CreateEditTaskEvent.cs" />
+    <Compile Include="Event\SendEditedTaskToListEvent.cs" />
     <Compile Include="Event\SendTaskToListEvent.cs" />
     <Compile Include="ViewModel\AddTaskViewModel.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />

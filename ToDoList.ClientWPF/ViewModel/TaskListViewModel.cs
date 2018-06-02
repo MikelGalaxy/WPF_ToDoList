@@ -26,12 +26,6 @@ namespace ToDoList.ClientWPF.ViewModel
         public ObservableCollection<ToDoTask> TaskList { get; set; }
 
 
-        //public RelayCommand FilterAll { get; set; }
-        public RelayCommand FilterOverdue { get; set; }
-        //public RelayCommand FilterToday { get; set; }
-        public RelayCommand FilterThisWeek { get; set; }
-        //public RelayCommand IsFinished { get; set; }
-
         private bool _allFilter=true;
 
         public bool AllFilter
@@ -76,9 +70,6 @@ namespace ToDoList.ClientWPF.ViewModel
             }
         }
 
-
-
-
         private bool _isFinished;
         public bool Finished
         {
@@ -89,10 +80,8 @@ namespace ToDoList.ClientWPF.ViewModel
             }
         }
 
-        public bool isFinished { get; set; }
-
         CollectionView view;
-
+        private ToDoTask editedTask;
 
         public TaskListViewModel(IEventAggregator eventAggregator)
         {
@@ -100,17 +89,41 @@ namespace ToDoList.ClientWPF.ViewModel
             TaskList = new ObservableCollection<ToDoTask>();
             AddTaskCommand = new RelayCommand(OnAddTaskClick,CanAddTaskClick);
             Exit = new RelayCommand(OnExitClick, CanExitClick);
-            //FilterAll = new RelayCommand(x => ClickFilterAll());
-            //FilterOverdue = new RelayCommand(x => ClickFilterOverdue());
-            //FilterToday = new RelayCommand(x => ClickFilterToday());
-            //FilterThisWeek = new RelayCommand(x => ClickFilterThisWeek());
-            //IsFinished = new RelayCommand(x => ClickIsFinished());
             testSeed();
             view = (CollectionView)CollectionViewSource.GetDefaultView(TaskList);
-            view.Filter += FinishedFilter;
-            //view.Filter += TodayFilters;
-            
+            view.Filter += Filters;
+            eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(newTaskAdded);
+            eventAggregator.GetEvent<SendEditedTaskToListEvent>().Subscribe(taskEdited);
+        }
 
+        private void taskEdited(ToDoTask item)
+        {
+            if(item!=null)
+            {
+                var t=TaskList.FirstOrDefault(x=>x.Equals(editedTask));
+                if(t!=null)
+                {
+                    t.Checked = item.Checked;
+                    t.Title = item.Title;
+                    t.DueDate = item.DueDate;
+                    t.Completion = item.Completion;
+                    t.Description = item.Description;
+
+                }                
+                view.Refresh();
+                //MessageBox.Show("Task edited");
+            }
+           
+        }
+
+        private void newTaskAdded(ToDoTask item)
+        {
+            if (item != null)
+            {
+                TaskList.Add(item);
+                MessageBox.Show("Added task "+item.Title);
+            }
+               
         }
 
         private bool TodayFilters(object item)
@@ -132,7 +145,7 @@ namespace ToDoList.ClientWPF.ViewModel
 
 
 
-        private bool FinishedFilter(object item)
+        private bool Filters(object item)
         {
             ToDoTask taskToDo = (ToDoTask)item;
             DateTime date = DateTime.ParseExact(taskToDo.DueDate, "yyyy-MM-dd", new DateTimeFormatInfo());
@@ -168,10 +181,7 @@ namespace ToDoList.ClientWPF.ViewModel
                     else
                         return false;
                 }
-
-
-
-
+                //its for all filter
                 return true;
             }
             else
@@ -206,12 +216,7 @@ namespace ToDoList.ClientWPF.ViewModel
                     else
                         return false;
                 }
-
-
-
-
-
-
+                //its for all filter
                 if (taskToDo.Completion == 100)
                 {
                     return true;
@@ -220,8 +225,6 @@ namespace ToDoList.ClientWPF.ViewModel
                     return false;
             }
         }
-
-
 
 
         private void testSeed()
@@ -262,6 +265,7 @@ namespace ToDoList.ClientWPF.ViewModel
         {
             if (task != null)
             {
+                editedTask = task;
                 _eventAggregator.GetEvent<CreateEditTaskEvent>().Publish(task);
             }
         }
