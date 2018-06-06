@@ -8,12 +8,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
 
-   
+
 
 
 
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="2*"/>
@@ -32,9 +33,9 @@
         <DockPanel HorizontalAlignment="Left" Height="100" LastChildFill="False" Grid.RowSpan="2" VerticalAlignment="Top" Width="100">
             <Menu DockPanel.Dock="Top">
                 <MenuItem Header="_File">
-                    <MenuItem Header="_Load"/>
-                    <MenuItem Header="_Save"/>
-                    <MenuItem Header="_Save to file"/>
+                    <MenuItem Header="_Load" Command="{Binding LoadFile}"/>
+                    <MenuItem Header="_Save"  Command="{Binding Save}"/>
+                    <MenuItem Header="_Save as" Command="{Binding SaveAs}"/>
                     <MenuItem Header="_Exit" Command="{Binding Exit}"/>
                 </MenuItem>
             </Menu>
@@ -48,13 +49,13 @@
                      Margin="36,37.6,0,0" Grid.Row="1" VerticalAlignment="Top" IsChecked="{Binding TodayFilter}"/>
         <RadioButton GroupName="Filtering" Content="This Week" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" 
                      Margin="38,37.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding ThisWeekFilter}"/>
-        <CheckBox Content="Finished" Grid.Column="4" Grid.Row="1"   HorizontalAlignment="Left" 
+        <CheckBox Content="Finished" Grid.Column="5" Grid.Row="1"   HorizontalAlignment="Left" 
                   Margin="45,40.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding Finished}"/>
         <!---->
         <Button Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="3" Content="Add Task"  HorizontalAlignment="Center" VerticalAlignment="Center" 
                 Height="50" Width="370" Command="{Binding AddTaskCommand}"/>
-        <ListView x:Name="taskList" Grid.Row="2" HorizontalAlignment="Center" Height="200"   VerticalAlignment="Center" Width="640" Grid.ColumnSpan="5" Grid.RowSpan="1"
-                  ItemsSource="{Binding TaskList}">          
+        <ListView x:Name="taskList" Grid.Row="2" HorizontalAlignment="Center" Height="200"   VerticalAlignment="Center" Width="467" Grid.ColumnSpan="4" Grid.RowSpan="1"
+                  ItemsSource="{Binding TaskList}" Margin="0,10.4,0.2,0.8" Grid.Column="1">          
             <ListView.View>
                 <GridView AllowsColumnReorder="False" >
                     <GridViewColumn Header="Due date" DisplayMemberBinding="{Binding DueDate}"/>

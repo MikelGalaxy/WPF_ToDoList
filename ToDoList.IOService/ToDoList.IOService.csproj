@@ -43,5 +43,11 @@
     <Compile Include="IOManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ToDoList.Model\ToDoList.Model.csproj">
+      <Project>{7A4C8768-6B7F-4D00-A465-2CDCD9865322}</Project>
+      <Name>ToDoList.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

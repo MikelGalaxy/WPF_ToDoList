@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using ToDoList.ClientWPF.Command;
 using ToDoList.ClientWPF.Event;
+using ToDoList.IOService;
 using ToDoList.Model;
 
 namespace ToDoList.ClientWPF.ViewModel
@@ -21,7 +22,13 @@ namespace ToDoList.ClientWPF.ViewModel
 
         public RelayCommand AddTaskCommand { get; set; }
 
+
+        public RelayCommand LoadFile { get; set; }
+        public RelayCommand Save { get; set; }
+        public RelayCommand SaveAs { get; set; }
         public RelayCommand Exit { get; set; }
+
+
 
         public ObservableCollection<ToDoTask> TaskList { get; set; }
 
@@ -79,22 +86,28 @@ namespace ToDoList.ClientWPF.ViewModel
                 view.Refresh();
             }
         }
-
+        IOManager ioManager;
         CollectionView view;
         private ToDoTask editedTask;
 
         public TaskListViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            ioManager = new IOManager();
             TaskList = new ObservableCollection<ToDoTask>();
             AddTaskCommand = new RelayCommand(OnAddTaskClick,CanAddTaskClick);
+            LoadFile = new RelayCommand(OnLoadFileClick, CanLoadFileClick);
+            Save = new RelayCommand(OnSaveClick, CanSaveClick);
+            SaveAs = new RelayCommand(OnSaveAsClick, CanSaveAsClick);
             Exit = new RelayCommand(OnExitClick, CanExitClick);
-            testSeed();
+            //testSeed();
             view = (CollectionView)CollectionViewSource.GetDefaultView(TaskList);
             view.Filter += Filters;
             eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(newTaskAdded);
             eventAggregator.GetEvent<SendEditedTaskToListEvent>().Subscribe(taskEdited);
         }
+
+       
 
         private void taskEdited(ToDoTask item)
         {
@@ -125,25 +138,6 @@ namespace ToDoList.ClientWPF.ViewModel
             }
                
         }
-
-        private bool TodayFilters(object item)
-        {
-            ToDoTask taskToDo = (ToDoTask)item;
-            
-            if (TodayFilter == true)
-            {
-                if (taskToDo.DueDate == DateTime.Now.ToString("yyyy-MM-dd"))
-                {
-                    return true;
-                }
-                else
-                    return false;
-            }
-            else
-                return true;          
-        }
-
-
 
         private bool Filters(object item)
         {
@@ -237,9 +231,50 @@ namespace ToDoList.ClientWPF.ViewModel
             TaskList.Add(new ToDoTask(false, "2018-06-03", "555", 100, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-05-29", "1111111", 25, "XD"));
             TaskList.Add(new ToDoTask(false, "2018-06-02", "12345", 25, "XD"));
+            
         }
 
+        #region Commands
 
+        private bool CanSaveAsClick(object obj)
+        {
+            if (TaskList.Count > 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private void OnSaveAsClick(object obj)
+        {
+            MessageBox.Show("Saving to file!");
+        }
+
+        private bool CanSaveClick(object obj)
+        {
+            if (TaskList.Count > 0)
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
+        private void OnSaveClick(object obj)
+        {
+            MessageBox.Show("Saving file!");
+        }
+
+        private bool CanLoadFileClick(object obj)
+        {
+            return true;
+        }
+
+        private void OnLoadFileClick(object obj)
+        {
+            MessageBox.Show("Loading file!");
+        }
 
         private bool CanExitClick(object obj)
         {
@@ -260,6 +295,10 @@ namespace ToDoList.ClientWPF.ViewModel
         {
             _eventAggregator.GetEvent<CreateEditTaskEvent>().Publish(null);
         }
+
+        #endregion
+
+
 
         public void SelectedTask(ToDoTask task)
         {
