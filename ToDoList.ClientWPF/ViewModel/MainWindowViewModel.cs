@@ -14,7 +14,7 @@ namespace ToDoList.ClientWPF.ViewModel
 {
     public class MainWindowViewModel: BaseViewModel, IMainWindowViewModel
     {
-
+// a nie bindablebase?
         private IEventAggregator _eventAggregator;
         private IRegionManager _regionManager;
         private IUnityContainer _unityContainer;

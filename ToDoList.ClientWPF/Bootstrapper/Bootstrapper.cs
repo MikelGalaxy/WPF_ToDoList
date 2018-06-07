@@ -26,8 +26,8 @@ namespace ToDoList.ClientWPF
             Container.RegisterType<IMainWindowViewModel, MainWindowViewModel>();
             Container.RegisterType<ITaskListViewModel, TaskListViewModel>();
             Container.RegisterType<IEventAggregator, EventAggregator>();
-            Container.RegisterType<TaskList, TaskList>(new ContainerControlledLifetimeManager());
-            Container.RegisterType<AddTask, AddTask>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<TaskList>(new ContainerControlledLifetimeManager());
+            Container.RegisterType<AddTask>(new ContainerControlledLifetimeManager());
 
 
         }

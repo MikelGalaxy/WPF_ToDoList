@@ -1,4 +1,5 @@
-﻿using Prism.Events;
+﻿using Microsoft.Win32;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -100,7 +101,7 @@ namespace ToDoList.ClientWPF.ViewModel
             Save = new RelayCommand(OnSaveClick, CanSaveClick);
             SaveAs = new RelayCommand(OnSaveAsClick, CanSaveAsClick);
             Exit = new RelayCommand(OnExitClick, CanExitClick);
-            //testSeed();
+            testSeed();
             view = (CollectionView)CollectionViewSource.GetDefaultView(TaskList);
             view.Filter += Filters;
             eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(newTaskAdded);
@@ -263,7 +264,16 @@ namespace ToDoList.ClientWPF.ViewModel
 
         private void OnSaveClick(object obj)
         {
-            MessageBox.Show("Saving file!");
+            var fileDialog = new SaveFileDialog();
+            fileDialog.Filter = "TEXT |*.txt";
+            fileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (fileDialog.ShowDialog().Value)
+            {
+                
+                MessageBox.Show("Saving file! "+fileDialog.FileName);
+                ioManager.SaveFile(TaskList.ToList(),fileDialog.FileName);
+            }
+            
         }
 
         private bool CanLoadFileClick(object obj)
@@ -273,7 +283,16 @@ namespace ToDoList.ClientWPF.ViewModel
 
         private void OnLoadFileClick(object obj)
         {
-            MessageBox.Show("Loading file!");
+            var fileDialog = new OpenFileDialog();
+            fileDialog.Filter = "TEXT |*.txt";
+            fileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (fileDialog.ShowDialog().Value)
+            {
+                string filename = fileDialog.FileName;
+                MessageBox.Show("Loading file! " + filename);
+                ioManager.LoadFile(filename);
+            }
+            
         }
 
         private bool CanExitClick(object obj)

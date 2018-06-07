@@ -9,25 +9,32 @@ namespace ToDoList.IOService
 {
     public class IOManager
     {
-        private string path;
+        //private string path;
         public IOManager()
         {
-            path = "";
+            //path = "";
         }
 
-        public IEnumerable<ToDoTask> LoadFile()
+        public IEnumerable<ToDoTask> LoadFile(string path)
         {
-            IEnumerable<ToDoTask> newList=new List<ToDoTask>();
+            var newList=new List<ToDoTask>();
 
+            string[] fileLines = System.IO.File.ReadAllLines(path);
 
-
+            foreach (string line in fileLines)
+            {
+                string[] taskStr = line.Split(',');
+                ToDoTask nTask = new ToDoTask(Boolean.Parse(taskStr[0]), taskStr[1], taskStr[2], Int32.Parse(taskStr[3]), taskStr[4]);
+                newList.Add(nTask);
+                
+            }
 
 
 
             return newList;
         }
 
-        public void SaveFile(List<ToDoTask> list)
+        public void SaveFile(List<ToDoTask> list,string path)
         {
 
 
