@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,15 +29,20 @@ namespace ToDoList.IOService
                 newList.Add(nTask);
                 
             }
-
-
-
             return newList;
         }
 
         public void SaveFile(List<ToDoTask> list,string path)
         {
+            int i = 0;
+            string[] tasksStr=new string[list.Count];
+            foreach (var task in list)
+            {
+                tasksStr[i] += $"{task.Checked},{task.DueDate},{task.Title},{task.Completion},{task.Description}";
+                i ++;
+            }
 
+            System.IO.File.WriteAllLines(path, tasksStr);
 
         }
 

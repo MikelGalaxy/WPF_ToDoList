@@ -24,10 +24,10 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
-            <RowDefinition Height="8*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="9*"/>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <DockPanel HorizontalAlignment="Left" Height="100" LastChildFill="False" Grid.RowSpan="2" VerticalAlignment="Top" Width="100">
@@ -35,7 +35,7 @@
                 <MenuItem Header="_File">
                     <MenuItem Header="_Load" Command="{Binding LoadFile}"/>
                     <MenuItem Header="_Save"  Command="{Binding Save}"/>
-                    <MenuItem Header="_Save as" Command="{Binding SaveAs}"/>
+                    <!--<MenuItem Header="_Save as" Command="{Binding SaveAs}"/>-->
                     <MenuItem Header="_Exit" Command="{Binding Exit}"/>
                 </MenuItem>
             </Menu>
@@ -52,28 +52,46 @@
         <CheckBox Content="Finished" Grid.Column="5" Grid.Row="1"   HorizontalAlignment="Left" 
                   Margin="45,40.6,0,0"  VerticalAlignment="Top" IsChecked="{Binding Finished}"/>
         <!---->
-        <Button Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="3" Content="Add Task"  HorizontalAlignment="Center" VerticalAlignment="Center" 
-                Height="50" Width="370" Command="{Binding AddTaskCommand}"/>
-        <ListView x:Name="taskList" Grid.Row="2" HorizontalAlignment="Center" Height="200"   VerticalAlignment="Center" Width="467" Grid.ColumnSpan="4" Grid.RowSpan="1"
-                  ItemsSource="{Binding TaskList}" Margin="0,10.4,0.2,0.8" Grid.Column="1">          
+        <Button Grid.Row="4"  Grid.ColumnSpan="6" Content="Add Task"  HorizontalAlignment="Center" VerticalAlignment="Center" 
+                Height="50" Width="490" Command="{Binding AddTaskCommand}" Margin="108,15,106,15"/>
+        <ListView x:Name="taskList" Grid.Row="2" HorizontalAlignment="Center" Height="200"   VerticalAlignment="Center" Width="586" Grid.ColumnSpan="6" Grid.RowSpan="1"
+                  ItemsSource="{Binding TaskList}" Margin="64,1,50.333,1" > 
+
             <ListView.View>
                 <GridView AllowsColumnReorder="False" >
-                    <GridViewColumn Header="Due date" DisplayMemberBinding="{Binding DueDate}"/>
-                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}"/>
-                    <GridViewColumn Header="% Complete" DisplayMemberBinding="{Binding Completion}"/>
-                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}"/>
+                    <GridView.ColumnHeaderContainerStyle>
+                       <Style TargetType="GridViewColumnHeader">
+                           <Setter Property="BorderBrush" Value="Black"/>
+                           <Setter Property="BorderThickness" Value="2"/>
+                       </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    
+                    <GridViewColumn Header="Due date" DisplayMemberBinding="{Binding DueDate}" Width="80"/>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="140"/>
+                    <GridViewColumn Header="% Complete" DisplayMemberBinding="{Binding Completion}" Width="90"/>
+                    <GridViewColumn Header="Description" DisplayMemberBinding="{Binding Description}" Width="250">
+                        <!--<GridViewColumn.HeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader">
+                                
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            </Style>
+                            
+                        </GridViewColumn.HeaderContainerStyle>-->      
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
             <Style TargetType="ListViewItem">
                   <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                  <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                  <Setter Property="VerticalContentAlignment"  Value="Center"/>
             </Style>
-            </ListView.ItemContainerStyle>
-            
+            </ListView.ItemContainerStyle>           
         </ListView>
 
-        
-
+ <!--<Border BorderBrush="Gray" BorderThickness=".5" >
+                                        
+                                    </Border>-->
 
 
     </Grid>

@@ -5,8 +5,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -99,9 +97,9 @@ namespace ToDoList.ClientWPF.ViewModel
             AddTaskCommand = new RelayCommand(OnAddTaskClick,CanAddTaskClick);
             LoadFile = new RelayCommand(OnLoadFileClick, CanLoadFileClick);
             Save = new RelayCommand(OnSaveClick, CanSaveClick);
-            SaveAs = new RelayCommand(OnSaveAsClick, CanSaveAsClick);
+            //SaveAs = new RelayCommand(OnSaveAsClick, CanSaveAsClick);
             Exit = new RelayCommand(OnExitClick, CanExitClick);
-            testSeed();
+            //testSeed();
             view = (CollectionView)CollectionViewSource.GetDefaultView(TaskList);
             view.Filter += Filters;
             eventAggregator.GetEvent<SendTaskToListEvent>().Subscribe(newTaskAdded);
@@ -237,20 +235,20 @@ namespace ToDoList.ClientWPF.ViewModel
 
         #region Commands
 
-        private bool CanSaveAsClick(object obj)
-        {
-            if (TaskList.Count > 0)
-            {
-                return true;
-            }
-            else
-                return false;
-        }
+        //private bool CanSaveAsClick(object obj)
+        //{
+        //    if (TaskList.Count > 0)
+        //    {
+        //        return true;
+        //    }
+        //    else
+        //        return false;
+        //}
 
-        private void OnSaveAsClick(object obj)
-        {
-            MessageBox.Show("Saving to file!");
-        }
+        //private void OnSaveAsClick(object obj)
+        //{
+        //    MessageBox.Show("Saving to file!");
+        //}
 
         private bool CanSaveClick(object obj)
         {
@@ -268,9 +266,8 @@ namespace ToDoList.ClientWPF.ViewModel
             fileDialog.Filter = "TEXT |*.txt";
             fileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
             if (fileDialog.ShowDialog().Value)
-            {
-                
-                MessageBox.Show("Saving file! "+fileDialog.FileName);
+            {                
+                //MessageBox.Show("Saving file! "+fileDialog.FileName);
                 ioManager.SaveFile(TaskList.ToList(),fileDialog.FileName);
             }
             
@@ -289,8 +286,9 @@ namespace ToDoList.ClientWPF.ViewModel
             if (fileDialog.ShowDialog().Value)
             {
                 string filename = fileDialog.FileName;
-                MessageBox.Show("Loading file! " + filename);
-                ioManager.LoadFile(filename);
+                //MessageBox.Show("Loading file! " + filename);
+                TaskList.Clear();
+                TaskList.AddRange(ioManager.LoadFile(filename));
             }
             
         }
